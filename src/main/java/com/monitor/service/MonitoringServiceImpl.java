@@ -85,8 +85,12 @@ public class MonitoringServiceImpl implements MonitoringService {
     @Override
     public List<ServiceEntity> findAll() {
         this.monitoringRepository.findAll().stream().forEach(m -> {
+            ServiceEntity serviceEntity = new ServiceEntity();
             m.setStatus(ScheduledTasks.checkUrl(m.url));
             m.setInformation(ScheduledTasks.checkInfo(m.url));
+            serviceEntity.setTime(m.getTime());
+            serviceEntity.setTitle(m.getTitle());
+            serviceEntity.setName(m.getName());
         });
         return monitoringRepository.findAll();
     }
